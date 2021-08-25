@@ -1,0 +1,39 @@
+import java.util.*;
+
+public class Main {
+    static Map<Integer,Integer> mp=new HashMap<Integer,Integer>();
+    static int a[]={0,0,-1,1},b[]={1,-1,0,0};
+    public static int dfs(int x,int y,int[][] nums){
+        if(mp.containsKey(x*1000+y)){
+            return mp.get(x*1000+y);
+        }
+        int res=0;
+        for(int i=0;i<4;i++){
+            int tx=x+a[i],ty=y+b[i];
+            if(tx<0||tx>=nums.length||ty<0||ty>=nums[0].length||nums[tx][ty]>=nums[x][y]){
+                continue;
+            }
+            res=Math.max(res,dfs(tx,ty,nums));
+        }
+        mp.put(x*1000+y,res+1);
+        return res+1;
+    }
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int m=sc.nextInt();
+        int n=sc.nextInt();
+        int nums[][]=new int[m][n];
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                nums[i][j]=sc.nextInt();
+            }
+        }
+        int res=0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                res=Math.max(res,dfs(i,j,nums));
+            }
+        }
+        System.out.println(res);
+    }
+}
