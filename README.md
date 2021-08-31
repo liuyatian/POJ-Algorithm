@@ -1,2 +1,2 @@
-# POJ-Algorithm-
+# POJ-Algorithm
 some code for problems in POJ
