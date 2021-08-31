@@ -1,0 +1,50 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args){
+        long[] d=new long[35000];
+        int diff=1,index=10;
+        long cur=0;
+        for(int i=1;i<35000;i++){
+            if(i==index){
+                diff++;
+                index*=10;
+            }
+            cur+=diff;
+            d[i]=cur;
+        }
+        Scanner sc=new Scanner(System.in);
+        int T=sc.nextInt();
+        while(T-->0){
+            int target=sc.nextInt();
+            int start=0;
+            long ans=0;
+            while(ans<target){
+                start++;
+                ans+=d[start];
+            }
+            if(ans==target){
+                System.out.println(start%10);
+                continue;
+            }
+            target-=ans-d[start];
+            int cnt=0,begin=1,p=10,bb=1;
+            while(cnt<target){
+                if(bb==p){
+                    begin++;
+                    p=p*10;
+                }
+                cnt+=begin;
+                bb++;
+            }
+            if(cnt==target){
+                System.out.println((bb-1)%10);
+            }
+            else{
+                target-=cnt-begin;
+                String s=String.valueOf(bb);
+                System.out.println(s.charAt(target-1));
+            }
+        }
+    }
+}
