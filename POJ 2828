@@ -1,0 +1,60 @@
+#include <iostream>
+#include <cmath> 
+#include <vector>
+#include <cstdio>
+using namespace std; 
+int pos[200010];
+int val[200010];
+int res[200010];
+int v[200010<<2];
+void build(int index,int start,int end){
+	if(start>end){
+		return;
+	}
+	if(start==end){
+		v[index]=1;
+		return;
+	}
+	int mid=(start+end)/2;
+	build(index*2,start,mid);
+	build(index*2+1,mid+1,end);
+	v[index]=v[index*2]+v[index*2+1];
+}
+int update(int index,int start,int end,int t){
+	int ans=-1;
+	if(v[index]==t&&start==end){
+		v[index]-=1;
+		return start;
+	}
+	if(v[index*2]>=t){
+		ans=update(index*2,start,(start+end)/2,t);
+	}
+	else{
+		ans=update(index*2+1,(start+end)/2+1,end,t-v[index*2]);
+	}
+	v[index]=v[index*2]+v[index*2+1];
+	return ans;
+}
+	
+int main() {
+     int n;
+     while(scanf("%d",&n)!=EOF){
+     	for(int i=0;i<n;i++){
+     		scanf("%d %d",&pos[i],&val[i]);
+     	}
+     	build(1,1,n);
+        for(int i=n-1;i>=0;i--){
+             	int t=update(1,1,n,pos[i]+1);
+                res[t]=val[i];
+        }
+        for(int i=1;i<=n;i++){
+        	if(i==n){
+             		printf("%d\n",res[i]);
+             	}
+             	else{
+             		printf("%d ",res[i]);
+             	}
+        }
+     }
+     return 0;
+ }
