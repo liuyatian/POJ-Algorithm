@@ -1,0 +1,63 @@
+import java.util.*;
+
+public class Main {
+    public static int lowbit(int x){
+        return x&(-x);
+    }
+    public static int getSum(int x,int[] v){
+        int res=0;
+        while(x>0){
+            res+=v[x];
+            x=x-lowbit(x);
+        }
+        return res;
+    }
+    public static void update(int x,int p,int[] v){
+        int n=v.length;
+        while(p<n){
+            v[p]-=x;
+            p=p+lowbit(p);
+        }
+    }
+    public static int find(int target,int[] v){
+        int n=v.length;
+        int start=1,end=n;
+        while(start<end){
+            int mid=start+(end-start)/2;
+            if(getSum(mid,v)<target){
+                start=mid+1;
+            }
+            else{
+                end=mid;
+            }
+        }
+        return start;
+    }
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int[] d=new int[n];
+        for(int i=1;i<n;i++){
+            d[i]=sc.nextInt();
+        }
+        int[] res=new int[n];
+        int[] sum=new int[n+1];
+        for(int i=1;i<=n;i++){
+            sum[i]=i;
+        }
+        int[] v=new int[n+1];
+        v[1]=1;
+        for(int i=2;i<=n;i++){
+            v[i]=sum[i]-sum[i&(i-1)];
+        }
+        for(int i=n-1;i>=0;i--){
+            int t=d[i]+1;
+            int index=find(t,v);
+            res[i]=index;
+            update(1,index,v);
+        }
+        for(int i=0;i<n;i++){
+            System.out.println(res[i]);
+        }
+    }
+}
