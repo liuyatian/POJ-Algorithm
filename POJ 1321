@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class Main {
+    static int res=0;
+    public static void dfs(int cur,int[] col,char[][] d,int k){
+        int n=d.length;
+        if(k==0){
+            res++;
+            return;
+        }
+        if(cur==n){
+            return;
+        }
+        for(int i=0;i<n;i++){
+            if(d[cur][i]=='.'||col[i]==1){
+                continue;
+            }
+            col[i]=1;
+            dfs(cur+1,col,d,k-1);
+            col[i]=0;
+        }
+        dfs(cur+1,col,d,k);
+    }
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        while(true){
+            int n=sc.nextInt();
+            int k=sc.nextInt();
+            if(n==-1&&k==-1){
+                break;
+            }
+            char[][] d=new char[n][n];
+            for(int i=0;i<n;i++){
+                String temp=sc.next();
+                for(int j=0;j<n;j++){
+                    d[i][j]=temp.charAt(j);
+                }
+            }
+            int[] col=new int[n];
+            res=0;
+            dfs(0,col,d,k);
+            System.out.println(res);
+        }
+    }
+}
