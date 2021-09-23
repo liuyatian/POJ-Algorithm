@@ -1,0 +1,46 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        while(true){
+            int t=sc.nextInt();
+            if(t==0){
+                break;
+            }
+            int res=0;
+            int t1=(int)(Math.sqrt(t));
+            if(t1*t1==t){
+                res++;
+            }
+            for(int i=1;i*i*2<=t;i++){
+                int t2=t-i*i;
+                int tt2=(int)(Math.sqrt(t2));
+                if(tt2*tt2==t2){
+                    res++;
+                }
+            }
+            for(int i=1;i*i*3<=t;i++){
+                for(int j=i;j*j*2<=t-i*i;j++){
+                    int t3=t-i*i-j*j;
+                    int tt3=(int)(Math.sqrt(t3));
+                    if(tt3*tt3==t3){
+                        res++;
+                    }
+                }
+            }
+            for(int i=1;i*i*4<=t;i++){
+                for(int j=i;j*j*3<=t-i*i;j++){
+                    for(int k=j;k*k*2<=t-i*i-j*j;k++){
+                        int t4=t-i*i-j*j-k*k;
+                        int tt4=(int)(Math.sqrt(t4));
+                        if(tt4*tt4==t4){
+                            res++;
+                        }
+                    }
+                }
+            }
+            System.out.println(res);
+        }
+    }
+}
