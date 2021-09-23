@@ -1,0 +1,27 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int[] v=new int[n];
+        for(int i=0;i<n;i++){
+            v[i]=sc.nextInt();
+        }
+        int res=0,start=0;
+        while(start<n){
+            while(start<n-1&&v[start]<=v[start+1]){
+                start++;
+            }
+            res+=v[start];
+            while(start<n-1&&v[start]>=v[start+1]){
+                start++;
+            }
+            if(start==n-1){
+                break;
+            }
+            res -= v[start];
+        }
+        System.out.println(res);
+    }
+}
