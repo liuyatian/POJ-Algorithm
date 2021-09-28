@@ -1,0 +1,75 @@
+import java.util.*;
+class TreeNode {
+    char c;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(char c){
+        this.c=c;
+        this.left=null;
+        this.right=null;
+    }
+}
+public class Main {
+    public static void dfs(TreeNode root,char c){
+        if(root.c>c){
+            if(root.left==null){
+                root.left=new TreeNode(c);
+            }
+            else{
+                dfs(root.left,c);
+            }
+        }
+        else{
+            if(root.right==null){
+                root.right=new TreeNode(c);
+            }
+            else{
+                dfs(root.right,c);
+            }
+        }
+    }
+    public static void preOrder(TreeNode root){
+        if(root==null){
+            return;
+        }
+        System.out.print(root.c);
+        preOrder(root.left);
+        preOrder(root.right);
+    }
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        while(true){
+            List<String>list=new ArrayList<String>();
+            boolean flag=false;
+            while(true){
+                String s=sc.next();
+                if(s.equals("*")){
+                    break;
+                }
+                else if(s.equals("$")){
+                    flag=true;
+                    break;
+                }
+                else{
+                    list.add(s);
+                }
+            }
+            int n=list.size();
+            char c=list.get(n-1).charAt(0);
+            TreeNode root=new TreeNode(c);
+            for(int i=n-2;i>=0;i--){
+                String ss=list.get(i);
+                int t=ss.length();
+                for(int j=0;j<ss.length();j++){
+                    char cc=ss.charAt(j);
+                    dfs(root,cc);
+                }
+            }
+            preOrder(root);
+            System.out.println();
+            if(flag==true){
+                break;
+            }
+        }
+    }
+}
