@@ -1,0 +1,57 @@
+#include<queue>
+#include<cstring>
+#include<stack>
+#include<vector>
+#include<set>
+#include<map>
+#include<algorithm>
+#include<string>
+#include<iomanip>
+#include<iostream>
+#include<cmath> 
+using namespace std;
+int dp[105][25][105];
+int dfs(int cur,int d,int n,int e,int ee){
+	if(cur>=d){
+		return 0;
+	}
+	if(dp[cur][n][e]!=100000){
+		return dp[cur][n][e];
+	}
+	if(e==0&&n==1){
+		return -1;
+	}
+	int tt=100000;
+	if(n>1){
+		tt=dfs(cur,d,n-1,ee-cur,ee);
+		if(tt!=-1&&tt!=100000){
+			dp[cur][n][e]=tt;
+		}
+	}
+	for(int i=1;i*i<=e;i++){
+		int t=dfs(cur+i,d,n,e-i*i,ee);
+		if(t==-1){
+			continue;
+		}
+		dp[cur][n][e]=min(dp[cur][n][e],t+1);
+	}
+	if(dp[cur][n][e]==100000){
+		dp[cur][n][e]=-1;
+	}
+	return dp[cur][n][e];
+}
+int main(){
+    int n,e,d;
+    cin>>n>>e>>d;
+    for(int i=0;i<105;i++){
+        for(int j=0;j<25;j++){
+            for(int k=0;k<105;k++){
+                dp[i][j][k]=100000;
+            }
+        }
+    }
+    int res=dfs(0,d,n,e,e);
+    cout<<(res==-1?0:res)<<endl;
+    return 0;
+
+}		
