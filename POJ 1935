@@ -1,0 +1,58 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int n,k;
+int st[50005];
+int v[50005];
+int d[50005][2];
+void dfs(vector<vector<pair<int,int> > >&e,int cur){
+    v[cur]=1;
+    int minn=0;
+    for(int i=0;i<e[cur].size();i++){
+        pair<int,int> temp=e[cur][i];
+        if(v[temp.first]){
+            continue;
+        }
+        dfs(e,temp.first);
+        if(d[temp.first][0]!=-1){
+            if(d[cur][0]==-1){
+                d[cur][0]=0;
+            }
+            d[cur][0]+=d[temp.first][0]+2*temp.second;
+            minn=min(minn,d[temp.first][1]-temp.second-d[temp.first][0]);
+        }
+    }
+    if(d[cur][0]==-1){
+        if(st[cur]){
+            d[cur][0]=0;
+            d[cur][1]=0;
+        }
+        return;
+    }
+    d[cur][1]=d[cur][0]+minn;
+}
+int main(){
+    scanf("%d%d",&n,&k);
+    vector<vector<pair<int,int> > >e(n);
+    for(int i=0;i<n-1;i++){
+        int a,b;
+        int c;
+        scanf("%d%d%d",&a,&b,&c);
+        e[a-1].push_back(make_pair(b-1,c));
+        e[b-1].push_back(make_pair(a-1,c));
+    }
+    int m;
+    scanf("%d",&m);
+    for(int i=0;i<m;i++){
+        int a;
+        scanf("%d",&a);
+        st[a-1]=1;
+    }
+    for(int i=0;i<n;i++){
+        d[i][0]=-1;
+        d[i][1]=-1;
+    }
+    dfs(e,k-1);
+    printf("%d\n",d[k-1][1]);
+    return 0;
+}
