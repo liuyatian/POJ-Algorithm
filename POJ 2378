@@ -1,0 +1,50 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+vector<int>res;
+int n;
+int dfs(int cur,vector<vector<int> >&e,vector<int>&v){
+  v[cur]=1;
+  int ans=1;
+  bool flag=false;
+  for(int i=0;i<e[cur].size();i++){
+    int t=e[cur][i];
+    if(v[t]){
+      continue;
+    }
+    int k=dfs(t,e,v);
+    if(k>n/2){
+      flag=true;
+    }
+    ans+=k;
+  }
+  if(n-ans>n/2){
+    flag=true;
+  }
+  if(flag==false){
+    res.push_back(cur+1);
+  }
+  return ans;
+}
+int main(){
+ cin>>n;
+ vector<vector<int> >e(n);
+ for(int i=0;i<n-1;i++){
+   int a,b;
+   cin>>a>>b;
+   e[a-1].push_back(b-1);
+   e[b-1].push_back(a-1);
+ }
+ vector<int>v(n,0);
+ dfs(0,e,v);
+ if(res.size()==0){
+   cout<<"NONE"<<endl;
+   return 0;
+ }
+ sort(res.begin(),res.end());
+ for(int i=0;i<res.size();i++){
+   cout<<res[i]<<endl;
+ }
+ return 0;
+}
